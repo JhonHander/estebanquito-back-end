@@ -11,19 +11,35 @@ const PORT = process.env.PORT || 3000;
 //para definir un puerto
 app.set('port', PORT);
 
+// Middleware para habilitar CORS
+app.use(
+    cors({
+        origin: 'http://localhost:5173', // URL del frontend
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true, // Si estás manejando cookies o tokens
+    })
+);
+
+
 // Middleware para parsear JSON solo en peticiones POST/PUT
 app.use(express.json());
 
 // Registrar rutas
-// app.use('/api/users', userRoutes);
 app.use(userRoutes);
 app.use(authRoutes);
 
-// console.log('Database config:', {
-//     user: process.env.DB_USER,
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-// });
+
+// Para permitir peticiones desde el frontend
+app.use(
+    cors({
+        origin: 'http://localhost:5173/',
+
+    }))
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
 
 
 // const testConnection = async () => {
@@ -37,13 +53,3 @@ app.use(authRoutes);
 // };
 
 // testConnection();
-
-// Para permitir peticiones desde el frontend
-app.use(
-    cors({
-        origin: 'http://localhost:5173'
-    }))
-
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});

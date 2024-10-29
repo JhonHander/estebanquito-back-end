@@ -3,19 +3,37 @@ import config from '../config.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+//existe un usuario
+const userExists = async (accountNumber) => {
+    const connection = await getConnection();
+    const [rows] = await connection.query('SELECT * FROM usuarios WHERE numero_cuenta = ?', [accountNumber]);
+    return rows.length > 0;
+}
+
+const querys = async (query, values) => {
+    const connection = await getConnection();
+    const [rows] = await connection.query(query, values);
+    return rows;
+}
+
 export const register = async (req, res) => {
     const { accountNumber, name, email, password, type, balance } = req.body;
+
     try {
+        console.log('contraseña pre-hash ', req.body['password'])
         const hashedPassword = await bcrypt.hash(password, 10);
-        const connection = await getConnection();
+
+        if (userExists(accountNumber)) {
+            return res.status(400).json({ message: 'El usuario ya existe' });
+        }
+
         const query = 'INSERT INTO usuarios (numero_cuenta, nombre, email, contraseña, tipo, saldo) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [accountNumber, name, email, hashedPassword, type, balance];
-        await connection.query(query, values);
+        querys(query, values);
         res.status(201).json({ message: 'Usuario registrado' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error en el servidor' });
-
     }
 }
 
@@ -47,7 +65,7 @@ export const login = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        return res.json({ message: 'Inicio exitoso', token: token });
+        return res.status(201).json({ message: 'Inicio exitoso', token: token, name: user.nombre });
 
     } catch (error) {
         console.error(error);
