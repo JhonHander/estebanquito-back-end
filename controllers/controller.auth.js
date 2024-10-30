@@ -23,13 +23,14 @@ export const register = async (req, res) => {
         console.log('contraseña pre-hash ', req.body['password'])
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        if (userExists(accountNumber)) {
-            return res.status(400).json({ message: 'El usuario ya existe' });
+        if (await userExists(accountNumber)) {
+            return res.status(400).json({ message: `El usuario ya existe` });
         }
 
         const query = 'INSERT INTO usuarios (numero_cuenta, nombre, email, contraseña, tipo, saldo) VALUES (?, ?, ?, ?, ?, ?)';
         const values = [accountNumber, name, email, hashedPassword, type, balance];
         querys(query, values);
+
         res.status(201).json({ message: 'Usuario registrado' });
     } catch (error) {
         console.error(error);
@@ -65,7 +66,7 @@ export const login = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        return res.status(201).json({ message: 'Inicio exitoso', token: token, name: user.nombre });
+        return res.status(201).json({ message: 'Inicio exitoso', token: token });
 
     } catch (error) {
         console.error(error);

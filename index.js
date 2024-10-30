@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 3000;
 //para definir un puerto
 app.set('port', PORT);
 
+
+// Middleware para parsear JSON solo en peticiones POST/PUT
+app.use(express.json());
+
 // Middleware para habilitar CORS
 app.use(
     cors({
@@ -20,10 +24,6 @@ app.use(
         credentials: true, // Si estás manejando cookies o tokens
     })
 );
-
-
-// Middleware para parsear JSON solo en peticiones POST/PUT
-app.use(express.json());
 
 // Registrar rutas
 app.use(userRoutes);
@@ -40,16 +40,3 @@ app.use(
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
-
-// const testConnection = async () => {
-//     try {
-//         const connection = await getConnection();
-//         console.log('Conectado exitosamente a la base de datos');
-//         connection.end();
-//     } catch (error) {
-//         console.error('Error al conectar:', error.message);
-//     }
-// };
-
-// testConnection();
