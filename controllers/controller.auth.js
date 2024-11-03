@@ -13,7 +13,7 @@ const userExists = async (accountNumber) => {
 const querys = async (query, values) => {
     const connection = await getConnection();
     const [rows] = await connection.query(query, values);
-    return rows;
+    return [rows];
 }
 
 export const register = async (req, res) => {
