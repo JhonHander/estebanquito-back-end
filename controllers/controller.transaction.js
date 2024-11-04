@@ -114,3 +114,33 @@ export const transfer = async (req, res) => {
         connection.release(); // Liberar la conexión
     }
 };
+
+//withdrawMoney function
+export const withdrawMoney = async (req, res) => {
+    const { accountNumber, amount } = req.body;
+    const connection = await getConnection();
+
+    try {
+        await connection.beginTransaction(); // Inicia la transacción
+
+        // Verifica si hay suficiente saldo
+        if (!await enoughBalance(accountNumber, amount)) {
+            await connection.rollback(); // Revierte la transacción
+            return res.status(400).json({ message: 'Saldo insuficiente' });
+        }
+
+        // Actualiza el saldo
+        const query = 'UPDATE usuarios SET saldo = saldo - ? WHERE numero_cuenta = ?';
+        const values = [amount, accountNumber];
+        await connection.query(query, values);
+
+        await connection.commit(); // Confirma la transacción
+        return res.status(201).json({ message: 'Retiro realizado' });
+    } catch (error) {
+        console.error(error);
+        await connection.rollback(); // Revierte la transacción en caso de error
+        res.status(500).json({ message: 'Error en el servidor' });
+    } finally {
+        connection.release(); // Asegúrate de liberar la conexión
+    }
+};
