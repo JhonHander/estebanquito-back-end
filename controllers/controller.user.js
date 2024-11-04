@@ -1,8 +1,9 @@
 import { getConnection } from '../database/db.js';
 
 export const getUserByAccountNumber = async (req, res) => {
+    const connection = await getConnection();
+
     try {
-        const connection = await getConnection();
         const query = 'SELECT * FROM usuarios WHERE numero_cuenta = ?';
         const accountNumber = req.body.accountNumber
         const [rows] = await connection.query(query, accountNumber);
@@ -15,7 +16,10 @@ export const getUserByAccountNumber = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error en el servidor' });
+    } finally {
+        connection.release(); // Liberar la conexión
     }
+
 }
 
 

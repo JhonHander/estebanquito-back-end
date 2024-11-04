@@ -29,7 +29,6 @@ app.use(transactionRoutes);
 app.use(
     cors({
         origin: 'http://localhost:5173',
-
     }))
 
 app.listen(PORT, () => {

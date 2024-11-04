@@ -5,19 +5,36 @@ import jwt from 'jsonwebtoken';
 
 //existe un usuario
 const userExists = async (accountNumber) => {
+
     const connection = await getConnection();
-    const [rows] = await connection.query('SELECT * FROM usuarios WHERE numero_cuenta = ?', [accountNumber]);
-    return rows.length > 0;
+
+    try {
+        const [rows] = await connection.query('SELECT * FROM usuarios WHERE numero_cuenta = ?', [accountNumber]);
+        return rows.length > 0;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        connection.release(); // Liberar la conexión
+    }
 }
 
 const querys = async (query, values) => {
+
     const connection = await getConnection();
-    const [rows] = await connection.query(query, values);
-    return [rows];
+
+    try {
+        const [rows] = await connection.query(query, values);
+        return [rows];
+    } catch (error) {
+        console.error(error);
+    } finally {
+        connection.release(); // Liberar la conexión
+    }
 }
 
 export const register = async (req, res) => {
-    const { accountNumber, name, email, password, type, balance } = req.body;
+    const { accountNumber, name, email, password, type } = req.body;
+    const balance = 0;
 
     try {
         console.log('contraseña pre-hash ', req.body['password'])
@@ -40,10 +57,12 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     const { accountNumber, password } = req.body;
+
+    const connection = await getConnection();
+
     try {
-        const connection = await getConnection();
+
         const query = 'SELECT * FROM usuarios WHERE numero_cuenta = ?';
-        const accountNumber = req.body.accountNumber;
         const [rows] = await connection.query(query, accountNumber);
 
         //si existe el usuario
@@ -71,6 +90,9 @@ export const login = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Error en el servidor' });
+    }
+    finally {
+        connection.release(); // Liberar la conexión
     }
 };
 
