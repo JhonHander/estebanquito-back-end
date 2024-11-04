@@ -2,9 +2,11 @@
 
 1. Crea una base de datos en MySQL llamada `estebanquito`.
 2. Importa el archivo `dump.sql` ejecutando:
-
+   
    ```bash
    mysql -u root -p estebanquito < path/al/dump.sql
+
+(Si necesitas el archivo `dump.sql` me lo puedes pedir a mi correo: `jhmejia@correo.iue.edu.co`
 
 ## Instruccion para configurar las variables de entorno
 1. Crea un archivo llamado `.env`
@@ -18,6 +20,9 @@
    JWT_SECRET=<tu_secreto_seguro>
 
 ## Instruccion para correr el proyecto
-1. Inicialice el archivo Node.js con Express haciendo:
+1. Instale todas las librerias utilizadas en su local así:
+   ```powershell
+      npm install
+2. Inicialice el archivo Node.js con Express haciendo:
    ```powershell
    npm run dev
