@@ -1,5 +1,6 @@
 import { query } from 'express';
 import { getConnection } from '../database/db.js';
+import { userExists } from './controller.auth.js';
 
 export const getTransactionsByUser = async (req, res) => {
     const connection = await getConnection();
@@ -22,17 +23,28 @@ export const getTransactionsByUser = async (req, res) => {
     }
 }
 
-const accountExists = async (accountNumber) => {
+export const enoughBalance = async (accountNumber, amount) => {
     const connection = await getConnection();
-    const [rows] = await connection.query('SELECT * FROM usuarios WHERE numero_cuenta = ?', [accountNumber]);
-    return rows.length > 0;
+    try {
+        const query = 'SELECT saldo FROM usuarios WHERE numero_cuenta = ?';
+        const [rows] = await connection.query(query, [accountNumber]);
+
+        if (rows.length === 0) return false; // La cuenta no existe
+
+        if (!userExists(accountNumber)) {
+            return false;
+        }
+
+        const saldo = parseFloat(rows[0].saldo); // Convertimos el saldo a un número
+        return saldo >= amount;
+    } catch (error) {
+        console.error("Error al verificar el saldo:", error);
+        return false;
+    } finally {
+        connection.release();
+    }
 };
 
-const enoughBalance = async (accountNumber, amount) => {
-    const connection = await getConnection();
-    const [rows] = await connection.query('SELECT saldo FROM usuarios WHERE numero_cuenta = ?', [accountNumber]);
-    return rows[0] >= amount;
-};
 
 export const transfer = async (req, res) => {
     // const { accountNumber, amount, destinationAccountNumber } = req.body;
@@ -46,52 +58,23 @@ export const transfer = async (req, res) => {
     try {
         await connection.beginTransaction(); // Iniciar la transacción
 
-        // Verificar si la cuenta de destino existe
-        if (!await accountExists(destinationAccountNumber)) {
+        if (!await userExists(destinationAccountNumber)) {
             await connection.rollback();
             return res.status(404).json({ message: 'Cuenta de destino no encontrada' });
         }
-
-        // Verificar si la cuenta de origen tiene saldo suficiente
 
         if (!await enoughBalance(accountNumber, amount)) {
             await connection.rollback();
             return res.status(400).json({ message: 'Saldo insuficiente' });
         }
 
-
-        // // Actualizar saldo de la cuenta emisora
-        // const [resultEmisor] = await connection.query(
-        //     'UPDATE usuarios SET saldo = saldo - ? WHERE numero_cuenta = ?',
-        //     [amount, accountNumber]
-        // );
-
-        // // Verificar que se haya afectado una fila
-        // if (resultEmisor.affectedRows === 0) {
-        //     await connection.rollback();
-        //     return res.status(400).json({ message: 'Error al actualizar saldo del emisor' });
-        // }
-
-        // // Actualizar saldo de la cuenta de destino
-        // const [resultDestino] = await connection.query(
-        //     'UPDATE usuarios SET saldo = saldo + ? WHERE numero_cuenta = ?',
-        //     [amount, destinationAccountNumber]
-        // );
-
-        // // Verificar que se haya afectado una fila
-        // if (resultDestino.affectedRows === 0) {
-        //     await connection.rollback();
-        //     return res.status(400).json({ message: 'Error al actualizar saldo del destinatario' });
-        // }
-
-
-        // Restar el saldo de la cuenta que transfiere
+        // saldo al que envía
         await connection.query(
             'UPDATE usuarios SET saldo = saldo - ? WHERE numero_cuenta = ?',
             [amount, accountNumber]
         );
 
-        // Añadir el saldo a la cuenta que recibe
+        // saldo al que recibe
         await connection.query(
             'UPDATE usuarios SET saldo = saldo + ? WHERE numero_cuenta = ?',
             [amount, destinationAccountNumber]
@@ -111,27 +94,36 @@ export const transfer = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Error en el servidor' });
     } finally {
-        connection.release(); // Liberar la conexión
+        connection.release();
     }
 };
+
 
 //withdrawMoney function
 export const withdrawMoney = async (req, res) => {
     const { accountNumber, amount } = req.body;
+    const type = 'Retiro';
+    const date = new Date();
+
     const connection = await getConnection();
 
     try {
-        await connection.beginTransaction(); // Inicia la transacción
+        await connection.beginTransaction()
 
-        // Verifica si hay suficiente saldo
         if (!await enoughBalance(accountNumber, amount)) {
             await connection.rollback(); // Revierte la transacción
             return res.status(400).json({ message: 'Saldo insuficiente' });
         }
 
-        // Actualiza el saldo
-        const query = 'UPDATE usuarios SET saldo = saldo - ? WHERE numero_cuenta = ?';
-        const values = [amount, accountNumber];
+        await connection.query(
+            'UPDATE usuarios SET saldo = saldo - ? WHERE numero_cuenta = ?',
+            [amount, accountNumber]
+        );
+
+        // const query = 'UPDATE usuarios SET saldo = saldo - ? WHERE numero_cuenta = ?';
+        const query = 'INSERT INTO transacciones (cuenta_principal_id, cuenta_destino_id, tipo, monto, fecha) VALUES (?, ?, ?, ?, ?)';
+        const values = [accountNumber, null, type, amount, date];
+        // const values = [amount, accountNumber];
         await connection.query(query, values);
 
         await connection.commit(); // Confirma la transacción
@@ -141,6 +133,6 @@ export const withdrawMoney = async (req, res) => {
         await connection.rollback(); // Revierte la transacción en caso de error
         res.status(500).json({ message: 'Error en el servidor' });
     } finally {
-        connection.release(); // Asegúrate de liberar la conexión
+        connection.release();
     }
 };

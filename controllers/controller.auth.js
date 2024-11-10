@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 //existe un usuario
-const userExists = async (accountNumber) => {
+export const userExists = async (accountNumber) => {
 
     const connection = await getConnection();
 
