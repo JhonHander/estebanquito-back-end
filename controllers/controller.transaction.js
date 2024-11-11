@@ -136,3 +136,51 @@ export const withdrawMoney = async (req, res) => {
         connection.release();
     }
 };
+
+
+//depositMoney function
+export const depositMoney = async (req, res) => {
+    const { accountNumber, amount } = req.body;
+    const type = 'Deposito';
+    const date = new Date();
+
+    const connection = await getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        if (!await userExists(accountNumber)) {
+            await connection.rollback();
+            return res.status(404).json({ message: 'Cuenta no encontrada' });
+        }
+
+        await connection.query('INSERT INTO transacciones (cuenta_principal_id, cuenta_destino_id, tipo, monto, fecha) VALUES (?, ?, ?, ?, ?)',
+            [accountNumber, null, type, amount, date]);
+
+        await connection.query(
+            'UPDATE usuarios SET saldo = saldo + ? WHERE numero_cuenta = ?',
+            [amount, accountNumber]
+        );
+
+        //aqui tambien se podria crear un trigger para actualizar el saldo del usuario pero se decidio manejar la logica aqui mismo en el controlador:
+        // CREATE TRIGGER actualizar_saldo_deposito
+        // AFTER INSERT ON transacciones
+        // FOR EACH ROW
+        // BEGIN
+        //     IF NEW.tipo = 'Deposito' THEN
+        //         UPDATE usuarios SET saldo = saldo + NEW.monto WHERE numero_cuenta = NEW.cuenta_principal_id;
+        //     END IF;
+        // END;
+
+
+        await connection.commit();
+        return res.status(201).json({ message: 'Deposito realizado' });
+    }
+    catch (error) {
+        await connection.rollback();
+        console.error(error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    } finally {
+        connection.release();
+    }
+}

@@ -1,5 +1,7 @@
 import { getConnection } from '../database/db.js';
 import { userExists } from './controller.auth.js';
+import { calculateTotalIncome } from './controller.report.js';
+import { calculateTotalOutcome, } from './controller.report.js';
 
 
 export const hasLoan = async (account) => {
@@ -9,6 +11,7 @@ export const hasLoan = async (account) => {
         const query = 'SELECT * FROM prestamos WHERE numero_cuenta = ? AND estado = "Aprobado"';
         const accountNumber = account;
         const [rows] = await connection.query(query, accountNumber);
+        // console.log(rows)
 
         return rows.length > 0;
 
@@ -21,6 +24,44 @@ export const hasLoan = async (account) => {
 }
 
 
+export const updateOrCreateReport = async (accountNumber) => {
+    const connection = await getConnection();
+
+    try {
+        // Calcular ingresos y egresos totales usando las funciones de cálculo
+        const totalIncome = await calculateTotalIncome(accountNumber);
+        const totalOutcome = await calculateTotalOutcome(accountNumber);
+
+        // Verificar si el registro ya existe
+        const [existingReport] = await connection.query(
+            'SELECT 1 FROM Reportes WHERE numero_cuenta = ?',
+            [accountNumber]
+        );
+
+        if (existingReport.length > 0) {
+            // Actualizar el registro si ya existe
+            await connection.query(`
+                UPDATE reportes 
+                SET historico_ingresos = ?, historico_egresos = ? 
+                WHERE numero_cuenta = ?
+            `, [totalIncome, totalOutcome, accountNumber]);
+        } else {
+            await connection.query(`
+                INSERT INTO reportes (numero_cuenta, historico_ingresos, historico_egresos) 
+                VALUES (?, ?, ?)
+            `, [accountNumber, totalIncome, totalOutcome]);
+        }
+
+        console.log(`Reporte actualizado para la cuenta ${accountNumber}`);
+    } catch (error) {
+        console.error('Error al actualizar o crear el reporte:', error);
+        throw error;
+    } finally {
+        connection.release();
+    }
+};
+
+
 export const askForLoan = async (req, res) => {
     const { accountNumber, amount, term } = req.body;
     const connection = await getConnection();
@@ -28,23 +69,21 @@ export const askForLoan = async (req, res) => {
     const status = 'Aprobado';
 
     try {
-        await connection.beginTransaction();
 
         if (!await hasLoan(accountNumber)) {
             await connection.rollback();
             return res.status(400).json({ message: `El usuario ya tiene un préstamo activo` });
         }
 
-
         const query = 'INSERT INTO prestamos (numero_cuenta, monto, plazo, estado, fecha_solicitud) VALUES (?, ?, ?, ?, ?)';
         const values = [accountNumber, amount, term, status, date];
         await connection.query(query, values);
 
+        // const updateBalanceQuery = 'UPDATE usuarios SET saldo = saldo + ? WHERE numero_cuenta = ?';
+        // await connection.query(updateBalanceQuery, [amount, accountNumber]);
 
-        const updateBalanceQuery = 'UPDATE usuarios SET saldo = saldo + ? WHERE numero_cuenta = ?';
-        await connection.query(updateBalanceQuery, [amount, accountNumber]);
-
-        await connection.commit();
+        // Actualizar o crear el reporte de la cuenta
+        await updateOrCreateReport(accountNumber);
         return res.status(201).json({ message: 'Préstamo solicitado' });
 
     } catch (error) {
@@ -67,7 +106,7 @@ export async function recalculateInterest() {
             FROM Prestamos p
             JOIN Reportes r ON p.numero_cuenta = r.numero_cuenta
             WHERE p.estado = 'Aprobado' 
-              AND CURDATE() > DATE_ADD(p.fecha_solicitud, INTERVAL p.plazo DAY)
+              AND CURDATE() > DATE_ADD(p.fecha_solicitud, INTERVAL p.plazo WEEK)
         `);
 
         console.log(loans)
@@ -89,7 +128,7 @@ export async function recalculateInterest() {
                   AND fecha = CURDATE()
             `, [loan.numero_cuenta]);
 
-            if (existingRecords < periodosInteres) {
+            if (existingRecords[0].conteo < periodosInteres) {
                 // Calcula el monto de interés
                 const interestAmount = loan.monto * 0.05 * periodosInteres;
 

@@ -2,7 +2,9 @@ import express from 'express'
 import userRoutes from './routes/routes.user.js'
 import authRoutes from './routes/routes.auth.js'
 import transactionRoutes from './routes/routes.transaction.js'
+import reportRoutes from './routes/routes.report.js'
 import { corsMiddleware } from './middleware/corsMiddleware.js'
+
 // import { recalculateInterestOnStart } from './controllers/controller.loan.js'
 import cron from 'node-cron'
 import { recalculateInterest } from './controllers/controller.loan.js'
@@ -28,6 +30,7 @@ app.use(userRoutes);
 app.use(authRoutes);
 app.use(transactionRoutes);
 app.use(loanRoutes);
+app.use(reportRoutes);
 
 
 // Ejecuta el cron job todos los días a medianoche
