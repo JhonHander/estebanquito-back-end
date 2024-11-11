@@ -7,9 +7,6 @@ yarn-error.log
 # Environment variables
 .env
 
-
-dump.sql
-
 # Logs
 logs/
 *.log
