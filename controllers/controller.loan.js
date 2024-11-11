@@ -52,7 +52,7 @@ export const updateOrCreateReport = async (accountNumber) => {
             `, [accountNumber, totalIncome, totalOutcome]);
         }
 
-        console.log(`Reporte actualizado para la cuenta ${accountNumber}`);
+        // console.log(`Reporte actualizado para la cuenta ${accountNumber}`);
     } catch (error) {
         console.error('Error al actualizar o crear el reporte:', error);
         throw error;
@@ -70,10 +70,10 @@ export const askForLoan = async (req, res) => {
 
     try {
 
-        if (!await hasLoan(accountNumber)) {
-            await connection.rollback();
-            return res.status(400).json({ message: `El usuario ya tiene un préstamo activo` });
-        }
+        // if (await hasLoan(accountNumber)) {
+        //     await connection.rollback();
+        //     return res.status(400).json({ message: `El usuario ya tiene un préstamo activo` });
+        // }
 
         const query = 'INSERT INTO prestamos (numero_cuenta, monto, plazo, estado, fecha_solicitud) VALUES (?, ?, ?, ?, ?)';
         const values = [accountNumber, amount, term, status, date];
