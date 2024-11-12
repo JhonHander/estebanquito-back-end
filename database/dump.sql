@@ -59,7 +59,7 @@ CREATE TABLE `prestamos` (
   PRIMARY KEY (`prestamo_id`),
   KEY `numero_cuenta` (`numero_cuenta`),
   CONSTRAINT `prestamos_ibfk_1` FOREIGN KEY (`numero_cuenta`) REFERENCES `usuarios` (`numero_cuenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,6 +68,7 @@ CREATE TABLE `prestamos` (
 
 LOCK TABLES `prestamos` WRITE;
 /*!40000 ALTER TABLE `prestamos` DISABLE KEYS */;
+INSERT INTO `prestamos` VALUES (1,321894,50.00,2,'Aprobado','2024-11-11 18:36:51'),(2,321895,50.00,1,'Aprobado','2024-11-11 18:37:10'),(3,321895,5.00,1,'Aprobado','2024-11-11 18:40:39'),(4,321895,10.00,2,'Aprobado','2024-11-11 18:40:57'),(5,321894,5.00,2,'Aprobado','2024-11-11 18:57:41'),(6,321894,10.00,2,'Aprobado','2024-11-11 18:59:40');
 /*!40000 ALTER TABLE `prestamos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +88,7 @@ CREATE TABLE `reportes` (
   PRIMARY KEY (`reporte_id`),
   KEY `numero_cuenta` (`numero_cuenta`),
   CONSTRAINT `reportes_ibfk_1` FOREIGN KEY (`numero_cuenta`) REFERENCES `usuarios` (`numero_cuenta`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +97,7 @@ CREATE TABLE `reportes` (
 
 LOCK TABLES `reportes` WRITE;
 /*!40000 ALTER TABLE `reportes` DISABLE KEYS */;
+INSERT INTO `reportes` VALUES (1,321894,0.00,165.00,10.00);
 /*!40000 ALTER TABLE `reportes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +120,7 @@ CREATE TABLE `transacciones` (
   KEY `cuenta_destino_id` (`cuenta_destino_id`),
   CONSTRAINT `transacciones_ibfk_1` FOREIGN KEY (`cuenta_principal_id`) REFERENCES `usuarios` (`numero_cuenta`),
   CONSTRAINT `transacciones_ibfk_2` FOREIGN KEY (`cuenta_destino_id`) REFERENCES `usuarios` (`numero_cuenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,6 +129,7 @@ CREATE TABLE `transacciones` (
 
 LOCK TABLES `transacciones` WRITE;
 /*!40000 ALTER TABLE `transacciones` DISABLE KEYS */;
+INSERT INTO `transacciones` VALUES (1,321895,NULL,'Deposito',5000.00,'2024-11-11 18:14:35'),(2,321895,321894,'Transferencia',50.00,'2024-11-11 18:16:07'),(3,321895,NULL,'Retiro',50.00,'2024-11-11 18:16:23'),(4,321894,NULL,'Deposito',50.00,'2024-11-11 18:59:08');
 /*!40000 ALTER TABLE `transacciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +158,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (301793,'Felipe ','felipe@gmail.com','$2b$10$2Q.j3.s4PYpRqEJ3TGZqvuJbo.ZURjTZ14k.iWkvXFf1aeaMbgBs.','Corriente',0.00),(305450,'Victor Manuel','victormanuel@gmail.com','$2b$10$rUt56RnN6uexF3WGoK.9C.n/ek40qy4nFBpkGfrZEsgTYX/V8HVHC','Ahorros',0.00),(321894,'Jhon Hander','jhonhanderr@gmail.com','$2b$10$SnoE2DqzNh7bW9ZrLDDRzuhOE/p19BJMcl.v1zM2wbd8q7Xm5g1xW','Ahorros',0.00);
+INSERT INTO `usuarios` VALUES (301793,'Felipe ','felipe@gmail.com','$2b$10$2Q.j3.s4PYpRqEJ3TGZqvuJbo.ZURjTZ14k.iWkvXFf1aeaMbgBs.','Corriente',0.00),(305450,'Victor Manuel','victormanuel@gmail.com','$2b$10$rUt56RnN6uexF3WGoK.9C.n/ek40qy4nFBpkGfrZEsgTYX/V8HVHC','Ahorros',0.00),(321894,'Jhon Hander','jhonhanderr@gmail.com','$2b$10$SnoE2DqzNh7bW9ZrLDDRzuhOE/p19BJMcl.v1zM2wbd8q7Xm5g1xW','Ahorros',165.00),(321895,'Juan','juann@gmail.com','$2b$10$RAsxsRlGIPiKTqQ6aRQndO4.LGwaQYsgcewiGM0GnGM0O5UGMTVm2','Ahorros',4965.00);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -168,4 +171,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-11 17:52:19
+-- Dump completed on 2024-11-11 19:00:48
