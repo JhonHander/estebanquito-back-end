@@ -1,3 +1,5 @@
+# Proyecto: Plataforma de Banca Estebanquito
+
 ## Instrucciones para configurar la base de datos
 
 1. Crea una base de datos en MySQL llamada `estebanquito`.
@@ -26,3 +28,7 @@
 2. Inicialice el archivo Node.js con Express haciendo:
    ```powershell
    npm run dev
+
+## Sobre el proyecto
+Para ver más detalles acerca del proyecto puedes ver [este repositorio](https://github.com/JhonHander/estebanquito-front-end).
+Aqui encontrarás el MR (Modelo Relacional) y al descargar el proyecto te encontrarás en con el Backend de la app web Estebanquito. Encontrarás el uso de Hash Password, JWT y del lado de la base de datos un archivo dump.sql en el que se puede ver la arquitectura de las tablas y los datos. Además, los *Stored Procedures (Procedimiento Almacenado)* y los *Triggers (Desencadenadores)*.
