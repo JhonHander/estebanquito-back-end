@@ -37,7 +37,7 @@ export const register = async (req, res) => {
     const balance = 0;
 
     try {
-        console.log('contraseña pre-hash ', req.body['password'])
+        // console.log('contraseña pre-hash ', req.body['password'])
         const hashedPassword = await bcrypt.hash(password, 10);
 
         if (await userExists(accountNumber)) {

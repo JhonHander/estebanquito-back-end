@@ -109,7 +109,7 @@ export async function recalculateInterest() {
               AND CURDATE() > DATE_ADD(p.fecha_solicitud, INTERVAL p.plazo WEEK)
         `);
 
-        console.log(loans)
+        // console.log(loans)
 
         for (const loan of loans) {
 
@@ -117,7 +117,7 @@ export async function recalculateInterest() {
             fechaVencimiento.setDate(fechaVencimiento.getDate() + loan.plazo);
 
             const diasDesdeVencimiento = Math.floor((new Date() - fechaVencimiento) / (1000 * 60 * 60 * 24));
-            console.log(diasDesdeVencimiento)
+            // console.log(diasDesdeVencimiento)
             const periodosInteres = Math.floor(diasDesdeVencimiento / 15);
 
             // Verifica si ya se ha aplicado el interés para este período
@@ -145,7 +145,7 @@ export async function recalculateInterest() {
                     WHERE numero_cuenta = ?
                 `, [interestAmount, loan.numero_cuenta]);
 
-                console.log(`Intereses recalculados para el usuario ${loan.numero_cuenta} y monto de ${interestAmount}`);
+                // console.log(`Intereses recalculados para el usuario ${loan.numero_cuenta} y monto de ${interestAmount}`);
             }
         }
 
