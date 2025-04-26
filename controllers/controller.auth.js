@@ -1,7 +1,9 @@
 import { getConnection } from "../database/db.js";
 import config from '../config.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+// Cambiar la importación de bcrypt
+import * as bcrypt from 'bcrypt';
+// Cambiar la importación de jsonwebtoken
+import * as jwt from 'jsonwebtoken';
 
 //existe un usuario
 export const userExists = async (accountNumber) => {
@@ -27,6 +29,8 @@ const querys = async (query, values) => {
         return [rows];
     } catch (error) {
         console.error(error);
+        // Propagar el error para que register pueda manejarlo
+        throw error;
     } finally {
         connection.release(); // Liberar la conexión
     }
@@ -37,16 +41,20 @@ export const register = async (req, res) => {
     const balance = 0;
 
     try {
-        // console.log('contraseña pre-hash ', req.body['password'])
-        const hashedPassword = await bcrypt.hash(password, 10);
-
+        // Verificar si el usuario existe ANTES de hacer el hash
         if (await userExists(accountNumber)) {
             return res.status(400).json({ message: `El usuario ya existe` });
         }
 
+        // Solo hacer hash si el usuario no existe
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         const query = 'INSERT INTO usuarios (numero_cuenta, nombre, email, contraseña, tipo, saldo) VALUES (?, ?, ?, ?, ?, ?)';
+
         const values = [accountNumber, name, email, hashedPassword, type, balance];
-        querys(query, values);
+        
+        // Añadir await para esperar a que querys termine y poder capturar errores
+        await querys(query, values);
 
         res.status(201).json({ message: 'Usuario registrado' });
     } catch (error) {

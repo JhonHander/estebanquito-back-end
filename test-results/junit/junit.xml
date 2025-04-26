@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="13" failures="0" errors="0" time="2.24">
+  <testsuite name="Auth Controller" errors="0" failures="0" skipped="0" timestamp="2025-04-26T02:14:06" time="1.935" tests="13">
+    <testcase classname="Auth Controller register debería registrar un usuario exitosamente si no existe" name="Auth Controller register debería registrar un usuario exitosamente si no existe" time="0.016">
+    </testcase>
+    <testcase classname="Auth Controller register debería devolver error 400 si el usuario ya existe" name="Auth Controller register debería devolver error 400 si el usuario ya existe" time="0.003">
+    </testcase>
+    <testcase classname="Auth Controller register debería devolver error 500 si falla el hash de la contraseña" name="Auth Controller register debería devolver error 500 si falla el hash de la contraseña" time="0.088">
+    </testcase>
+    <testcase classname="Auth Controller register debería devolver error 500 si falla la inserción en la base de datos" name="Auth Controller register debería devolver error 500 si falla la inserción en la base de datos" time="0.026">
+    </testcase>
+    <testcase classname="Auth Controller login debería iniciar sesión y devolver un token si las credenciales son correctas" name="Auth Controller login debería iniciar sesión y devolver un token si las credenciales son correctas" time="0.003">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 404 si el usuario no se encuentra" name="Auth Controller login debería devolver error 404 si el usuario no se encuentra" time="0.003">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 401 si la contraseña es incorrecta" name="Auth Controller login debería devolver error 401 si la contraseña es incorrecta" time="0.005">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 500 si falla la consulta a la base de datos" name="Auth Controller login debería devolver error 500 si falla la consulta a la base de datos" time="0.016">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 500 si falla bcrypt.compare" name="Auth Controller login debería devolver error 500 si falla bcrypt.compare" time="0.034">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 500 si falla jwt.sign" name="Auth Controller login debería devolver error 500 si falla jwt.sign" time="0.05">
+    </testcase>
+    <testcase classname="Auth Controller userExists debería devolver true si el usuario existe" name="Auth Controller userExists debería devolver true si el usuario existe" time="0.015">
+    </testcase>
+    <testcase classname="Auth Controller userExists debería devolver false si el usuario no existe" name="Auth Controller userExists debería devolver false si el usuario no existe" time="0.01">
+    </testcase>
+    <testcase classname="Auth Controller userExists debería manejar errores de base de datos, loguear y liberar la conexión" name="Auth Controller userExists debería manejar errores de base de datos, loguear y liberar la conexión" time="0.009">
+    </testcase>
+  </testsuite>
+</testsuites>

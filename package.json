@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:auth": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage __tests__/controllers/controller.auth.test.js",
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
@@ -24,9 +25,20 @@
     "nodemon": "^3.1.7"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0"
   },
   "jest": {
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "test-results/junit",
+          "outputName": "junit.xml"
+        }
+      ]
+    ],
     "coverageDirectory": "coverage",
     "coverageProvider": "v8",
     "collectCoverageFrom": [
