@@ -1,4 +1,4 @@
-import { query } from 'express';
+// import { query } from 'express';
 import { getConnection } from '../database/db.js';
 import { userExists } from './controller.auth.js';
 

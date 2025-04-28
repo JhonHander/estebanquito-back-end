@@ -1,31 +1,216 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="13" failures="0" errors="0" time="2.24">
-  <testsuite name="Auth Controller" errors="0" failures="0" skipped="0" timestamp="2025-04-26T02:14:06" time="1.935" tests="13">
-    <testcase classname="Auth Controller register debería registrar un usuario exitosamente si no existe" name="Auth Controller register debería registrar un usuario exitosamente si no existe" time="0.016">
+<testsuites name="jest tests" tests="64" failures="9" errors="0" time="2.058">
+  <testsuite name="User Controller" errors="0" failures="0" skipped="0" timestamp="2025-04-28T18:39:11" time="1.249" tests="8">
+    <testcase classname="User Controller getUserByAccountNumber debería devolver la información del usuario si existe" name="User Controller getUserByAccountNumber debería devolver la información del usuario si existe" time="0.016">
     </testcase>
-    <testcase classname="Auth Controller register debería devolver error 400 si el usuario ya existe" name="Auth Controller register debería devolver error 400 si el usuario ya existe" time="0.003">
+    <testcase classname="User Controller getUserByAccountNumber debería devolver error 404 si el usuario no existe" name="User Controller getUserByAccountNumber debería devolver error 404 si el usuario no existe" time="0.002">
     </testcase>
-    <testcase classname="Auth Controller register debería devolver error 500 si falla el hash de la contraseña" name="Auth Controller register debería devolver error 500 si falla el hash de la contraseña" time="0.088">
+    <testcase classname="User Controller getUserByAccountNumber debería manejar el caso de datos inconsistentes" name="User Controller getUserByAccountNumber debería manejar el caso de datos inconsistentes" time="0.002">
     </testcase>
-    <testcase classname="Auth Controller register debería devolver error 500 si falla la inserción en la base de datos" name="Auth Controller register debería devolver error 500 si falla la inserción en la base de datos" time="0.026">
+    <testcase classname="User Controller getUserByAccountNumber debería manejar errores de base de datos" name="User Controller getUserByAccountNumber debería manejar errores de base de datos" time="0.003">
     </testcase>
-    <testcase classname="Auth Controller login debería iniciar sesión y devolver un token si las credenciales son correctas" name="Auth Controller login debería iniciar sesión y devolver un token si las credenciales son correctas" time="0.003">
+    <testcase classname="User Controller updateUserByAccountNumber debería actualizar el perfil de usuario exitosamente" name="User Controller updateUserByAccountNumber debería actualizar el perfil de usuario exitosamente" time="0.001">
     </testcase>
-    <testcase classname="Auth Controller login debería devolver error 404 si el usuario no se encuentra" name="Auth Controller login debería devolver error 404 si el usuario no se encuentra" time="0.003">
+    <testcase classname="User Controller updateUserByAccountNumber debería manejar errores de base de datos" name="User Controller updateUserByAccountNumber debería manejar errores de base de datos" time="0.01">
     </testcase>
-    <testcase classname="Auth Controller login debería devolver error 401 si la contraseña es incorrecta" name="Auth Controller login debería devolver error 401 si la contraseña es incorrecta" time="0.005">
+    <testcase classname="User Controller updateUserByAccountNumber debería actualizar correctamente incluso si no afecta filas (usuario existe pero no cambian los datos)" name="User Controller updateUserByAccountNumber debería actualizar correctamente incluso si no afecta filas (usuario existe pero no cambian los datos)" time="0.002">
     </testcase>
-    <testcase classname="Auth Controller login debería devolver error 500 si falla la consulta a la base de datos" name="Auth Controller login debería devolver error 500 si falla la consulta a la base de datos" time="0.016">
+    <testcase classname="User Controller updateUserByAccountNumber debería manejar datos faltantes en la solicitud" name="User Controller updateUserByAccountNumber debería manejar datos faltantes en la solicitud" time="0.001">
     </testcase>
-    <testcase classname="Auth Controller login debería devolver error 500 si falla bcrypt.compare" name="Auth Controller login debería devolver error 500 si falla bcrypt.compare" time="0.034">
+  </testsuite>
+  <testsuite name="Report Controller" errors="0" failures="0" skipped="0" timestamp="2025-04-28T18:39:11" time="1.344" tests="15">
+    <testcase classname="Report Controller showTotalIncome debería devolver el ingreso total correctamente" name="Report Controller showTotalIncome debería devolver el ingreso total correctamente" time="0.015">
     </testcase>
-    <testcase classname="Auth Controller login debería devolver error 500 si falla jwt.sign" name="Auth Controller login debería devolver error 500 si falla jwt.sign" time="0.05">
+    <testcase classname="Report Controller showTotalIncome debería devolver 0 si no hay ingresos" name="Report Controller showTotalIncome debería devolver 0 si no hay ingresos" time="0.001">
     </testcase>
-    <testcase classname="Auth Controller userExists debería devolver true si el usuario existe" name="Auth Controller userExists debería devolver true si el usuario existe" time="0.015">
+    <testcase classname="Report Controller showTotalIncome debería manejar errores de la base de datos" name="Report Controller showTotalIncome debería manejar errores de la base de datos" time="0.002">
     </testcase>
-    <testcase classname="Auth Controller userExists debería devolver false si el usuario no existe" name="Auth Controller userExists debería devolver false si el usuario no existe" time="0.01">
+    <testcase classname="Report Controller showTotalOutcome debería devolver el egreso total correctamente" name="Report Controller showTotalOutcome debería devolver el egreso total correctamente" time="0.001">
     </testcase>
-    <testcase classname="Auth Controller userExists debería manejar errores de base de datos, loguear y liberar la conexión" name="Auth Controller userExists debería manejar errores de base de datos, loguear y liberar la conexión" time="0.009">
+    <testcase classname="Report Controller showTotalOutcome debería devolver 0 si no hay egresos" name="Report Controller showTotalOutcome debería devolver 0 si no hay egresos" time="0.001">
+    </testcase>
+    <testcase classname="Report Controller showTotalOutcome debería manejar errores de la base de datos" name="Report Controller showTotalOutcome debería manejar errores de la base de datos" time="0.012">
+    </testcase>
+    <testcase classname="Report Controller showTotalDebts debería devolver la deuda total correctamente" name="Report Controller showTotalDebts debería devolver la deuda total correctamente" time="0.003">
+    </testcase>
+    <testcase classname="Report Controller showTotalDebts debería devolver 0 si no hay deudas" name="Report Controller showTotalDebts debería devolver 0 si no hay deudas" time="0.002">
+    </testcase>
+    <testcase classname="Report Controller showTotalDebts debería manejar errores de la base de datos" name="Report Controller showTotalDebts debería manejar errores de la base de datos" time="0.005">
+    </testcase>
+    <testcase classname="Report Controller calculateTotalIncome debería calcular correctamente el ingreso total sumando todas las fuentes" name="Report Controller calculateTotalIncome debería calcular correctamente el ingreso total sumando todas las fuentes" time="0.004">
+    </testcase>
+    <testcase classname="Report Controller calculateTotalIncome debería manejar valores nulos de la base de datos" name="Report Controller calculateTotalIncome debería manejar valores nulos de la base de datos" time="0.001">
+    </testcase>
+    <testcase classname="Report Controller calculateTotalIncome debería propagar un error si falla alguna consulta" name="Report Controller calculateTotalIncome debería propagar un error si falla alguna consulta" time="0.006">
+    </testcase>
+    <testcase classname="Report Controller calculateTotalOutcome debería calcular correctamente el egreso total sumando transferencias y retiros" name="Report Controller calculateTotalOutcome debería calcular correctamente el egreso total sumando transferencias y retiros" time="0.001">
+    </testcase>
+    <testcase classname="Report Controller calculateTotalOutcome debería manejar valores nulos de la base de datos" name="Report Controller calculateTotalOutcome debería manejar valores nulos de la base de datos" time="0.001">
+    </testcase>
+    <testcase classname="Report Controller calculateTotalOutcome debería propagar un error si falla alguna consulta" name="Report Controller calculateTotalOutcome debería propagar un error si falla alguna consulta" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="Auth Controller" errors="0" failures="0" skipped="0" timestamp="2025-04-28T18:39:11" time="1.402" tests="13">
+    <testcase classname="Auth Controller register debería registrar un usuario exitosamente si no existe" name="Auth Controller register debería registrar un usuario exitosamente si no existe" time="0.024">
+    </testcase>
+    <testcase classname="Auth Controller register debería devolver error 400 si el usuario ya existe" name="Auth Controller register debería devolver error 400 si el usuario ya existe" time="0.002">
+    </testcase>
+    <testcase classname="Auth Controller register debería devolver error 500 si falla el hash de la contraseña" name="Auth Controller register debería devolver error 500 si falla el hash de la contraseña" time="0.017">
+    </testcase>
+    <testcase classname="Auth Controller register debería devolver error 500 si falla la inserción en la base de datos" name="Auth Controller register debería devolver error 500 si falla la inserción en la base de datos" time="0.003">
+    </testcase>
+    <testcase classname="Auth Controller login debería iniciar sesión y devolver un token si las credenciales son correctas" name="Auth Controller login debería iniciar sesión y devolver un token si las credenciales son correctas" time="0.002">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 404 si el usuario no se encuentra" name="Auth Controller login debería devolver error 404 si el usuario no se encuentra" time="0.001">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 401 si la contraseña es incorrecta" name="Auth Controller login debería devolver error 401 si la contraseña es incorrecta" time="0.001">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 500 si falla la consulta a la base de datos" name="Auth Controller login debería devolver error 500 si falla la consulta a la base de datos" time="0.002">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 500 si falla bcrypt.compare" name="Auth Controller login debería devolver error 500 si falla bcrypt.compare" time="0.002">
+    </testcase>
+    <testcase classname="Auth Controller login debería devolver error 500 si falla jwt.sign" name="Auth Controller login debería devolver error 500 si falla jwt.sign" time="0.002">
+    </testcase>
+    <testcase classname="Auth Controller userExists debería devolver true si el usuario existe" name="Auth Controller userExists debería devolver true si el usuario existe" time="0.002">
+    </testcase>
+    <testcase classname="Auth Controller userExists debería devolver false si el usuario no existe" name="Auth Controller userExists debería devolver false si el usuario no existe" time="0.001">
+    </testcase>
+    <testcase classname="Auth Controller userExists debería manejar errores de base de datos, loguear y liberar la conexión" name="Auth Controller userExists debería manejar errores de base de datos, loguear y liberar la conexión" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Loan Controller" errors="0" failures="3" skipped="0" timestamp="2025-04-28T18:39:11" time="1.436" tests="11">
+    <testcase classname="Loan Controller hasLoan debería devolver true si el usuario tiene un préstamo aprobado" name="Loan Controller hasLoan debería devolver true si el usuario tiene un préstamo aprobado" time="0.014">
+    </testcase>
+    <testcase classname="Loan Controller hasLoan debería devolver false si el usuario no tiene préstamos aprobados" name="Loan Controller hasLoan debería devolver false si el usuario no tiene préstamos aprobados" time="0.001">
+    </testcase>
+    <testcase classname="Loan Controller hasLoan debería manejar errores y liberar la conexión" name="Loan Controller hasLoan debería manejar errores y liberar la conexión" time="0.001">
+      <failure>ReferenceError: res is not defined
+    at hasLoan (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\controllers\controller.loan.js:20:9)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.loan.test.js:123:22)</failure>
+    </testcase>
+    <testcase classname="Loan Controller updateOrCreateReport debería actualizar un reporte existente" name="Loan Controller updateOrCreateReport debería actualizar un reporte existente" time="0.003">
+    </testcase>
+    <testcase classname="Loan Controller updateOrCreateReport debería crear un nuevo reporte si no existe" name="Loan Controller updateOrCreateReport debería crear un nuevo reporte si no existe" time="0.002">
+    </testcase>
+    <testcase classname="Loan Controller updateOrCreateReport debería propagar errores y liberar la conexión" name="Loan Controller updateOrCreateReport debería propagar errores y liberar la conexión" time="0.01">
+    </testcase>
+    <testcase classname="Loan Controller askForLoan debería solicitar un préstamo exitosamente" name="Loan Controller askForLoan debería solicitar un préstamo exitosamente" time="0.001">
+      <failure>Error: Must use import to load ES Module: C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\controllers\controller.loan.js
+    at Runtime.requireModule (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-runtime\build\index.js:850:21)
+    at Runtime.requireActual (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-runtime\build\index.js:921:17)
+    at Object.requireActual (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-runtime\build\index.js:2102:41)
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.loan.test.js:238:49)
+    at Promise.then.completed (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\node_modules\jest-runner\build\testWorker.js:106:12)</failure>
+    </testcase>
+    <testcase classname="Loan Controller askForLoan debería manejar errores y liberar la conexión" name="Loan Controller askForLoan debería manejar errores y liberar la conexión" time="0.001">
+    </testcase>
+    <testcase classname="Loan Controller recalculateInterest debería recalcular intereses para préstamos vencidos" name="Loan Controller recalculateInterest debería recalcular intereses para préstamos vencidos" time="0.008">
+      <failure>Error: expect(jest.fn()).toHaveBeenNthCalledWith(n, ...expected)
+
+n: 3
+Expected: StringContaining &quot;INSERT INTO Historial_intereses&quot;, [&quot;123456789&quot;, Any&lt;Number&gt;, Any&lt;String&gt;]
+Received
+       2: &quot;
+                SELECT COUNT(*) AS conteo
+                FROM historial_intereses
+                WHERE numero_cuenta = ?·
+                  AND fecha = CURDATE()
+            &quot;, [&quot;123456789&quot;]
+
+Number of calls: 2
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.loan.test.js:347:25)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Loan Controller recalculateInterest no debería aplicar intereses si ya se aplicaron para el período" name="Loan Controller recalculateInterest no debería aplicar intereses si ya se aplicaron para el período" time="0.001">
+    </testcase>
+    <testcase classname="Loan Controller recalculateInterest debería manejar errores y liberar la conexión" name="Loan Controller recalculateInterest debería manejar errores y liberar la conexión" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Transaction Controller" errors="0" failures="6" skipped="0" timestamp="2025-04-28T18:39:11" time="1.479" tests="17">
+    <testcase classname="Transaction Controller getTransactionsByUser debería devolver las transacciones del usuario si existen" name="Transaction Controller getTransactionsByUser debería devolver las transacciones del usuario si existen" time="0.015">
+    </testcase>
+    <testcase classname="Transaction Controller getTransactionsByUser debería devolver un mensaje de error si no se encuentran transacciones" name="Transaction Controller getTransactionsByUser debería devolver un mensaje de error si no se encuentran transacciones" time="0.002">
+    </testcase>
+    <testcase classname="Transaction Controller getTransactionsByUser debería manejar errores de la base de datos" name="Transaction Controller getTransactionsByUser debería manejar errores de la base de datos" time="0.002">
+    </testcase>
+    <testcase classname="Transaction Controller enoughBalance debería devolver true si el usuario tiene saldo suficiente" name="Transaction Controller enoughBalance debería devolver true si el usuario tiene saldo suficiente" time="0.001">
+    </testcase>
+    <testcase classname="Transaction Controller enoughBalance debería devolver false si el usuario no tiene saldo suficiente" name="Transaction Controller enoughBalance debería devolver false si el usuario no tiene saldo suficiente" time="0.001">
+    </testcase>
+    <testcase classname="Transaction Controller enoughBalance debería devolver false si el usuario no existe" name="Transaction Controller enoughBalance debería devolver false si el usuario no existe" time="0.002">
+    </testcase>
+    <testcase classname="Transaction Controller enoughBalance debería manejar errores y devolver false" name="Transaction Controller enoughBalance debería manejar errores y devolver false" time="0.011">
+    </testcase>
+    <testcase classname="Transaction Controller transfer debería realizar una transferencia exitosa" name="Transaction Controller transfer debería realizar una transferencia exitosa" time="0.016">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+Expected number of calls: 1
+Received number of calls: 2
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.transaction.test.js:255:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Transaction Controller transfer debería fallar si la cuenta destino no existe" name="Transaction Controller transfer debería fallar si la cuenta destino no existe" time="0.001">
+    </testcase>
+    <testcase classname="Transaction Controller transfer debería fallar si no hay saldo suficiente" name="Transaction Controller transfer debería fallar si no hay saldo suficiente" time="0.002">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+Expected number of calls: 1
+Received number of calls: 2
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.transaction.test.js:328:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Transaction Controller transfer debería manejar errores durante la transferencia" name="Transaction Controller transfer debería manejar errores durante la transferencia" time="0.002">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+Expected number of calls: 1
+Received number of calls: 2
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.transaction.test.js:366:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Transaction Controller withdrawMoney debería realizar un retiro exitoso" name="Transaction Controller withdrawMoney debería realizar un retiro exitoso" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+Expected number of calls: 1
+Received number of calls: 2
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.transaction.test.js:398:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Transaction Controller withdrawMoney debería fallar si no hay saldo suficiente" name="Transaction Controller withdrawMoney debería fallar si no hay saldo suficiente" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+Expected number of calls: 1
+Received number of calls: 2
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.transaction.test.js:437:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Transaction Controller withdrawMoney debería manejar errores durante el retiro" name="Transaction Controller withdrawMoney debería manejar errores durante el retiro" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+Expected number of calls: 1
+Received number of calls: 2
+    at Object.&lt;anonymous&gt; (C:\Users\jhonh\OneDrive\Escritorio\Clases_U\programacion_web\estebanquito-backend\__tests__\controllers\controller.transaction.test.js:470:33)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Transaction Controller depositMoney debería realizar un depósito exitoso" name="Transaction Controller depositMoney debería realizar un depósito exitoso" time="0.003">
+    </testcase>
+    <testcase classname="Transaction Controller depositMoney debería fallar si la cuenta no existe" name="Transaction Controller depositMoney debería fallar si la cuenta no existe" time="0.002">
+    </testcase>
+    <testcase classname="Transaction Controller depositMoney debería manejar errores durante el depósito" name="Transaction Controller depositMoney debería manejar errores durante el depósito" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>

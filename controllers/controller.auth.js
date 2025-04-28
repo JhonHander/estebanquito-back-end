@@ -87,7 +87,8 @@ export const login = async (req, res) => {
         }
 
         //crear el jwt
-        const token = jwt.sign(
+        // const token = jwt.sign(
+        const token = jwt.default.sign(
             { numero_cuenta: user.numero_cuenta },
             config.jwtSecret,
             { expiresIn: '1h' }

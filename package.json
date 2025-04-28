@@ -6,6 +6,10 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "test:auth": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage __tests__/controllers/controller.auth.test.js",
+    "test:report": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage __tests__/controllers/controller.report.test.js",
+    "test:loan": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage __tests__/controllers/controller.loan.test.js",
+    "test:transaction": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage __tests__/controllers/controller.transaction.test.js",
+    "test:user": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage __tests__/controllers/controller.user.test.js",
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
@@ -42,12 +46,17 @@
     "coverageDirectory": "coverage",
     "coverageProvider": "v8",
     "collectCoverageFrom": [
-      "**/*.{js,jsx}",
+      "controllers/**/*.{js,jsx}",
+      "middleware/**/*.{js,jsx}",
+      "routes/**/*.{js,jsx}",
       "!**/node_modules/**",
       "!**/vendor/**",
       "!**/__tests__/**",
       "!**/coverage/**",
       "!index.js",
+      "!config.js",
+      "!convert-junit-to-sonar.js",
+      "!prepare-sonar.sh",
       "!database/db.js"
     ],
     "coverageReporters": [

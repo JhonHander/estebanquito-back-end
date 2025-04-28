@@ -27,8 +27,12 @@ jest.unstable_mockModule('bcrypt', () => ({
   compare: mockCompare
 }));
 
+// Actualizar el mock de jsonwebtoken para incluir default.sign
 jest.unstable_mockModule('jsonwebtoken', () => ({
-  sign: mockSign
+  sign: mockSign,
+  default: {
+    sign: mockSign
+  }
 }));
 
 // Importamos el controlador DESPUÉS de configurar los mocks
