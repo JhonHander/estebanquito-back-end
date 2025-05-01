@@ -6,6 +6,8 @@ yarn-error.log
 
 # Environment variables
 .env
+.env.*
+*.env
 
 # Logs
 logs/
@@ -40,3 +42,21 @@ coverage/
 # Temporary files
 *.tmp
 *.bak
+
+# SonarQube related files
+.scannerwork/
+.sonar/
+.sonarlint/
+sonar-project.properties
+convert-junit-to-sonar.js
+prepare-sonar.sh
+test-results/
+
+# Other sensitive or unnecessary files
+*.pem
+*.key
+*.cer
+*.jks
+*.p12
+*.pfx
+dump.sql
